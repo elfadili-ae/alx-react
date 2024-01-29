@@ -7,9 +7,8 @@ function addParagraph(paragraph) {
     body.innerHTML = bodyContent
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    addParagraph("Holberton Dashboard");
-    addParagraph("Dashboard data for the students");
-    addParagraph("Copyright - Holberton School");
-});
+
+addParagraph("Holberton Dashboard");
+addParagraph("Dashboard data for the students");
+addParagraph("Copyright - Holberton School");
 
