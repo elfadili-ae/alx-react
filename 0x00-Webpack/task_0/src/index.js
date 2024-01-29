@@ -1,14 +1,5 @@
 import $ from 'jquery';
 
-function addParagraph(paragraph) {
-    const body = document.body;
-    let bodyContent = body.innerHTML;
-    bodyContent += `<p>${paragraph}</p>`
-    body.innerHTML = bodyContent
-}
-
-
-addParagraph("Holberton Dashboard");
-addParagraph("Dashboard data for the students");
-addParagraph("Copyright - Holberton School");
-
+$('body').append('<p>Holberton Dashboard</p>');
+$('body').append('<p>Dashboard data for the students</p>');
+$('body').append('<p>Copyright - Holberton School</p>');
