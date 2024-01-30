@@ -22,6 +22,7 @@ module.exports = {
         path: path.resolve(__dirname, 'public'),
         filename: '[name].bundle.js',
     },
+    devtool: 'inline-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             title: "My journey in Webpack",
@@ -34,8 +35,7 @@ module.exports = {
         },
     },
     devServer: {
-        // contentBase: path.join(__dirname, 'public'),
-        static: path.resolve(__dirname, 'public'),
+        static: path.resolve(__dirname, './public'),
         port: 8564,
         open: true,
     },
