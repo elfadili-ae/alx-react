@@ -1,10 +1,10 @@
 import React from 'react';
-import './Notifications.css'
-import Close from './close.png'
+import './Notifications.css';
+import Close from '../assets/close.png';
 import { getLatestNotification } from '../utils/utils';
 
 function btnClicked() {
-    console.log("Close button has been clicked")
+    console.log("Close button has been clicked");
 }
 
 const Notif = () => {
