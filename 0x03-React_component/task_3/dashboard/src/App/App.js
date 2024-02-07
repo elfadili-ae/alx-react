@@ -7,6 +7,8 @@ import Login from '../Login/Login';
 import CourseList from '../CourseList/CourseList';
 import propTypes from 'prop-types';
 import { getLatestNotification } from '../utils/utils';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import BodySection from '../BodySection/BodySection';
 
 
 class App extends React.Component {
@@ -34,11 +36,20 @@ class App extends React.Component {
           <Header />
           <div className="App-body">
             {this.props.isLoggedIn ? (
-              <CourseList listCourses={this.listCourses} />
+              <BodySectionWithMarginBottom title="Course list">
+                <CourseList listCourses={this.listCourses} />
+              </BodySectionWithMarginBottom>
             ) : (
-              <Login />
+              <BodySectionWithMarginBottom title="Login to continue">
+                <Login />
+              </BodySectionWithMarginBottom>
             )
             }
+            <BodySection title="News from the School">
+              <p>Do proident fugiat ad Lorem ea consectetur ea nulla officia fugiat ut incididunt deserunt. Magna dolore dolore cillum voluptate aliqua ea fugiat consequat ea dolor. Et consequat incididunt enim tempor dolor nostrud commodo. Sit magna mollit aliquip officia. Mollit mollit duis aute pariatur reprehenderit nulla fugiat irure cillum sunt. Elit excepteur dolor aliquip adipisicing non incididunt voluptate amet id ad fugiat sunt dolore. Elit nisi fugiat duis esse culpa nostrud adipisicing excepteur nisi consectetur.
+
+                Laboris cillum aliquip do laborum in sit duis incididunt sint elit do ut non. Dolore culpa aute non labore exercitation ipsum exercitation quis culpa aute non magna. Amet nulla incididunt aliqua proident ullamco Lorem veniam cillum sunt. Proident esse reprehenderit consequat duis id et.</p>
+            </BodySection>
           </div>
           <Footer />
         </div>

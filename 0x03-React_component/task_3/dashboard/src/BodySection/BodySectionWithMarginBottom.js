@@ -11,7 +11,7 @@ class BodySectionWithMarginBottom extends React.Component {
     }
 }
 
-bodySectionWithMargin.propsTypes = {
+BodySectionWithMarginBottom.propsTypes = {
     title: propsTypes.string.isRequired,
     children: propsTypes.oneOfType([propsTypes.string, propsTypes.element])
 }
