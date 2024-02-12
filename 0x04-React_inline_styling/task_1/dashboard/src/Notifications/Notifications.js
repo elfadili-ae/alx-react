@@ -1,11 +1,33 @@
 import React from 'react'
-import './Notifications.css'
 import Close from '../assets/close.png'
 import NotificationItem from './NotificationItem'
 import propTypes from 'prop-types'
 import NotificationItemShape from './NotificationItemShape'
+import { StyleSheet, css } from 'aphrodite'
 
-
+const styles = StyleSheet.create({
+    notifHolder: {
+        paddingRight: '8px',
+        paddingTop: '8px',
+        position: 'absolute',
+        right: '0'
+    },
+    menuItem: {
+        marginBottom: '4px',
+        textAlign: 'right'
+    },
+    Notifications: {
+        position: 'relative',
+        padding: '4px',
+        paddingRight: '24px',
+        border: '2px solid rgb(97, 80, 255)',
+        borderStyle: 'dashed'
+    },
+    p: {
+        margin: '0',
+        padding: '0'
+    }
+})
 
 class Notif extends React.Component {
     constructor(props) {
@@ -28,13 +50,13 @@ class Notif extends React.Component {
     }
 
     render() {
-        return <div className='notif-holder'>
-            <div className='menuItem'>
-                <p>Your notifications</p>
+        return <div className={css(styles.notifHolder)}>
+            <div className={css(styles.menuItem)}>
+                <p className={css(styles.p)}>Your notifications</p>
             </div>
             {this.props.displayDrawer ? (
-                <div className='Notifications'>
-                    <p>Here is the list of notifications</p>
+                <div className={css(styles.Notifications)}>
+                    <p className={css(styles.p)}>Here is the list of notifications</p>
                     <button aria-label='Close' onClick={this.btnClicked} style={{ position: 'absolute', right: '1px', top: '4px', background: 'none', border: 'none' }}>
                         <img src={Close} width={'25px'} alt='close button' />
                     </button>

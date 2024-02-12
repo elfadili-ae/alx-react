@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Notif from '../Notifications/Notifications';
@@ -9,6 +8,18 @@ import propTypes from 'prop-types';
 import { getLatestNotification } from '../utils/utils';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import BodySection from '../BodySection/BodySection';
+import { css, StyleSheet } from 'aphrodite';
+
+
+const styles = StyleSheet.create({
+  AppLogo: {
+    PointerEvent: 'none'
+  },
+  AppBody: {
+    padding: '20px',
+    minHeight: '60vh'
+  }
+})
 
 
 class App extends React.Component {
@@ -34,7 +45,7 @@ class App extends React.Component {
         <Notif listNotifications={this.listNotif} />
         <div className="App">
           <Header />
-          <div className="App-body">
+          <div className={css(styles.AppBody)}>
             {this.props.isLoggedIn ? (
               <BodySectionWithMarginBottom title="Course list">
                 <CourseList listCourses={this.listCourses} />
