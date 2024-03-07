@@ -6,7 +6,7 @@ import uiReducer, { initialState } from "./reducers/uiReducer";
 import { createStore, applyMiddleware } from 'redux';
 import { Map } from 'immutable';
 import { Provider } from 'react-redux';
-import thunk from 'redux';
+import { thunk } from 'redux-thunk';
 
 const store = createStore(uiReducer, Map(initialState), applyMiddleware(thunk));
 
