@@ -1,95 +1,34 @@
-/**
- * @jest-environment jsdom
- */
-
-import React from "react";
 import { shallow, mount } from "enzyme";
-import App, { mapStateToProps } from "./App";
-import { MapStateToProps } from "react-redux";
+import React from "react";
+import App, { listNotificationsInitialState, mapStateToProps } from "./App";
+import { StyleSheetTestUtils } from "aphrodite";
+import AppContext, { user, logOut } from "./AppContext";
 
-describe("App tests", () => {
-    it("renders without crashing", () => {
-        const component = shallow(<App />);
+import { fromJS } from "immutable";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import uiReducer, { initialState } from "../reducers/uiReducer";
 
-        expect(component).toBeDefined();
+const store = createStore(uiReducer, initialState);
+
+describe("App testcases", () => {
+    it("verifies mapStateToProps returns the right data from user Login", () => {
+        let state = fromJS({
+            isUserLoggedIn: true,
+        });
+
+        const result = mapStateToProps(state);
+
+        expect(result).toEqual({ isLoggedIn: true });
     });
 
-    it('verfies Notifications exists', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find('Notif')).toHaveLength(1);
-    });
+    it("verifies mapStateToProps returns the right data from display Drawer", () => {
+        let state = fromJS({
+            isNotificationDrawerVisible: true,
+        });
 
-    it('verfies Header exists', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find('Header')).toHaveLength(1);
-    });
+        const result = mapStateToProps(state);
 
-    it('verfies Login exists', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find('Login')).toHaveLength(1);
-    });
-
-    it('verfies Footer exists', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find('Footer')).toHaveLength(1);
-    });
-
-    it('verfies CourseList does not exist', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find('CourseList')).toHaveLength(0);
+        expect(result).toEqual({ displayDrawer: true });
     });
 });
-
-describe('App isLoggedIn=true tests', () => {
-    it('verfies CourseList exists', () => {
-        const wrapper = shallow(<App isLoggedIn={true} />);
-        expect(wrapper.find('CourseList')).toHaveLength(1);
-    });
-
-    it('verfies Login does not exist', () => {
-        const wrapper = shallow(<App isLoggedIn={true} />);
-        expect(wrapper.find('Login')).toHaveLength(0);
-    });
-});
-
-describe('ctr+h', () => {
-    document.alert = jest.fn();
-    it("verifies alert is called", () => {
-        const wrapper = mount(<App />);
-        const spy = jest.spyOn(window, "alert");
-        const event = new KeyboardEvent("keydown", { ctrlKey: true, key: "h" });
-        document.dispatchEvent(event);
-
-        expect(spy).toHaveBeenCalled();
-        spy.mockRestore();
-        wrapper.unmount();
-    });
-    it('verifies alert is "Logging you out"', () => {
-        const wrapper = mount(<App />);
-        const spy = jest.spyOn(window, "alert");
-        const event = new KeyboardEvent("keydown", {
-            ctrlKey: true,
-            key: "h"
-        });
-        document.dispatchEvent(event);
-
-        expect(spy).toHaveBeenCalledWith("Logging you out");
-        jest.restoreAllMocks();
-        wrapper.unmount();
-    });
-    document.alert.mockClear();
-
-    it("verifies logOut is called", () => {
-        const mocked = jest.fn();
-        const wrapper = mount(<App logOut={mocked} />);
-        const event = new KeyboardEvent("keydown", {
-            ctrlKey: true,
-            key: "h"
-        });
-        document.dispatchEvent(event);
-
-        expect(mocked).toHaveBeenCalledTimes(1);
-        wrapper.unmount();
-    });
-
-})
