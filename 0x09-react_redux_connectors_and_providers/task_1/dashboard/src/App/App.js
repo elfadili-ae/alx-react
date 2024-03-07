@@ -10,7 +10,6 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import BodySection from '../BodySection/BodySection';
 import { css, StyleSheet } from 'aphrodite';
 import { user, AppContext } from './AppContext';
-import uiReducer from '../reducers/uiReducer';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -83,18 +82,21 @@ class App extends React.Component {
   }
 
   render() {
+
+    const {
+      isLoggedIn, displayDrawer, displayNotificationDrawer, hideNotificationDrawer, } = this.props;
     return (
       <AppContext.Provider value={{
         user: this.state.user,
         logOut: this.state.logOut
       }}>
         <React.Fragment>
-          <Notif listNotifications={this.state.listNotif} markNotificationAsRead={this.markNotificationAsRead} displayDrawer={this.state.displayDrawer}
-            handleDisplayDrawer={this.handleDisplayDrawer} handleHideDrawer={this.handleHideDrawer} />
+          <Notif listNotifications={this.state.listNotif} markNotificationAsRead={this.markNotificationAsRead} displayDrawer={displayDrawer}
+            handleDisplayDrawer={displayNotificationDrawer} handleHideDrawer={hideNotificationDrawer} />
           <div className="App">
             <Header />
             <div className={css(styles.AppBody)}>
-              {this.state.user.isLoggedIn ? (
+              {isLoggedIn ? (
                 <BodySectionWithMarginBottom title="Course list">
                   <CourseList listCourses={this.listCourses} />
                 </BodySectionWithMarginBottom>
@@ -148,8 +150,10 @@ App.defaultProps = {
 
 export const mapStateToProps = (state) => {
   return {
+    displayDrawer: state.get('isNotificationDrawerVisible'),
     isLoggedIn: state.get("isUserLoggedIn"),
   };
 };
+
 
 export default connect(mapStateToProps)(App);
