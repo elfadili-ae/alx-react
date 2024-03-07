@@ -4,7 +4,8 @@
 
 import React from "react";
 import { shallow, mount } from "enzyme";
-import App from "./App";
+import App, { mapStateToProps } from "./App";
+import { MapStateToProps } from "react-redux";
 
 describe("App tests", () => {
     it("renders without crashing", () => {
