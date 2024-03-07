@@ -10,8 +10,8 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import BodySection from '../BodySection/BodySection';
 import { css, StyleSheet } from 'aphrodite';
 import { user, AppContext } from './AppContext';
-import uiReducer from '../reducers/uiReducer';
 import { connect } from 'react-redux';
+import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators';
 
 const styles = StyleSheet.create({
   AppLogo: {
@@ -36,8 +36,6 @@ class App extends React.Component {
         { id: 3, type: "urgent", html: getLatestNotification() }
       ]
     };
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-    this.handleHideDrawer = this.handleHideDrawer.bind(this);
     this.logIn = this.logIn.bind(this);
   }
 
@@ -47,17 +45,7 @@ class App extends React.Component {
     { id: 3, name: 'React', credit: 40 }
   ]
 
-  handleDisplayDrawer() {
-    this.setState(prevState => ({
-      displayDrawer: true
-    }));
-  }
 
-  handleHideDrawer() {
-    this.setState(prevState => ({
-      displayDrawer: false
-    }));
-  }
 
   logIn(email, password) {
     this.setState({
@@ -83,18 +71,21 @@ class App extends React.Component {
   }
 
   render() {
+
+    const {
+      isLoggedIn, displayDrawer, displayNotificationDrawer, hideNotificationDrawer, } = this.props;
     return (
       <AppContext.Provider value={{
         user: this.state.user,
         logOut: this.state.logOut
       }}>
         <React.Fragment>
-          <Notif listNotifications={this.state.listNotif} markNotificationAsRead={this.markNotificationAsRead} displayDrawer={this.state.displayDrawer}
-            handleDisplayDrawer={this.handleDisplayDrawer} handleHideDrawer={this.handleHideDrawer} />
+          <Notif listNotifications={this.state.listNotif} markNotificationAsRead={this.markNotificationAsRead} displayDrawer={displayDrawer}
+            handleDisplayDrawer={displayNotificationDrawer} handleHideDrawer={hideNotificationDrawer} />
           <div className="App">
             <Header />
             <div className={css(styles.AppBody)}>
-              {this.state.user.isLoggedIn ? (
+              {isLoggedIn ? (
                 <BodySectionWithMarginBottom title="Course list">
                   <CourseList listCourses={this.listCourses} />
                 </BodySectionWithMarginBottom>
@@ -134,22 +125,30 @@ class App extends React.Component {
 
 App.propTypes = {
   isLoggedIn: propTypes.bool,
-  logOut: propTypes.func
+  displayDrawer: propTypes.bool,
+  displayNotificationDrawer: propTypes.func,
+  hideNotificationDrawer: propTypes.func
 }
 
 App.defaultProps = {
   isLoggedIn: false,
-  logOut: () => {
-    return;
-  }
+  displayDrawer: false,
+  displayNotificationDrawer: () => { },
+  hideNotificationDrawer: () => { }
 }
 
 // export default App;
 
 export const mapStateToProps = (state) => {
   return {
+    displayDrawer: state.get('isNotificationDrawerVisible'),
     isLoggedIn: state.get("isUserLoggedIn"),
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = {
+  displayNotificationDrawer,
+  hideNotificationDrawer,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
