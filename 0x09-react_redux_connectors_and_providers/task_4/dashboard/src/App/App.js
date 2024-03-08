@@ -128,8 +128,8 @@ App.defaultProps = {
 
 export const mapStateToProps = (state) => {
   return {
-    displayDrawer: state.get('isNotificationDrawerVisible'),
-    isLoggedIn: state.get("isUserLoggedIn"),
+    displayDrawer: state.ui.get('isNotificationDrawerVisible'),
+    isLoggedIn: state.ui.get("isUserLoggedIn"),
     login: loginRequest,
   };
 };

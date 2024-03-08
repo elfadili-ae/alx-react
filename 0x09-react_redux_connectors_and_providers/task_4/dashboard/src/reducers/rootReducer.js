@@ -1,10 +1,10 @@
 import uiReducer, { initialUiState } from "./uiReducer"
-import courseReducer from "./courseReducer"
+import courseReducer, { initialCourseState } from "./courseReducer"
 import notificationReducer, { initialNotifState } from "./notificationReducer"
 import { Map } from 'immutable'
 
 export const initialState = {
-    courses: Map([]),
+    courses: Map(initialCourseState),
     notifications: Map(initialNotifState),
     ui: Map(initialUiState)
 }
