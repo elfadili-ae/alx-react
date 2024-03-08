@@ -20,6 +20,10 @@ export default function uiReducer(state = initialState, action) {
                 {
                     return immutableState.set('isNotificationDrawerVisible', false);
                 }
+            case LOGIN:
+                {
+                    return immutableState.set('user', action.user);
+                }
             case LOGIN_SUCCESS:
                 {
                     return immutableState.set('isUserLoggedIn', true);
@@ -31,7 +35,7 @@ export default function uiReducer(state = initialState, action) {
                 }
             case LOGOUT:
                 {
-                    return immutableState.set('isUserLoggedIn', false);
+                    return immutableState.set('isUserLoggedIn', false).set('user', null);
                 }
             default: {
                 break;
