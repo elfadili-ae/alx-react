@@ -1,59 +1,111 @@
-import React from 'react'
-import CourseListRow from './CourseListRow'
-import propTypes from 'prop-types'
-import CourseShape from './CourseShape'
-import { StyleSheet, css } from 'aphrodite'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+    fetchCourses,
+    selectCourse,
+    unSelectCourse,
+} from "../actions/courseActionCreators";
+import { getListCourses } from "../selectors/courseSelector";
+import CourseListRow from "./CourseListRow";
+import PropTypes from "prop-types";
+import { StyleSheet, css } from "aphrodite";
 
-const styels = StyleSheet.create({
-    table: {
-        marginTop: '2em',
-        border: '2px solid rgba(255, 0, 234, 0.423)',
-        width: '100%',
-        padding: '0',
-    },
-    th: {
-        borderBottom: '2px solid rgba(255, 0, 234, 0.423)',
-        padding: '2px 8px'
-    },
-    tr: {
-        ':nth-child(2)': {
-            textAlign: 'left'
-        }
-    },
-    td: {
-        padding: '2px 8px'
+export class CourseList extends Component {
+    constructor(props) {
+        super(props);
+        this.onChangeRow = this.onChangeRow.bind(this);
     }
 
-})
+    componentDidMount() {
+        this.props.fetchCourses();
+    }
 
-const CourseList = ({ listCourses }) => {
-    return (
-        <table className={css(styels.table)}>
-            <thead>
-                <CourseListRow textFirstCell="Available courses" isHeader={true} />
-                <CourseListRow textFirstCell="Course name" textSecondCell="Credit" isHeader={true} />
-            </thead>
+    onChangeRow(id, checked) {
+        if (checked) {
+            this.props.selectCourse(id);
+        } else {
+            this.props.unSelectCourse(id);
+        }
+    }
 
-            <tbody>
-                {(listCourses.length === 0) ? (
-                    <CourseListRow textFirstCell="No course available yet" />
-                ) : (
-                    listCourses.map(({ id, name, credit }) =>
-                        <CourseListRow key={id} textFirstCell={name} textSecondCell={credit} />
-                    )
-                )
-                }
-            </tbody>
-        </table>
-    )
-}
+    render() {
+        const { listCourses } = this.props;
 
-CourseList.propTypes = {
-    listCourses: propTypes.arrayOf(CourseShape)
+        return (
+            <table id="CourseList" className={css(styles.list)}>
+                <thead>
+                    <CourseListRow textFirstCell="Available courses" isHeader={true} />
+                    <CourseListRow
+                        textFirstCell="Course name"
+                        textSecondCell="Credit"
+                        isHeader={true}
+                    />
+                </thead>
+                <tbody>
+                    {(!listCourses || listCourses.length === 0) && (
+                        <CourseListRow
+                            textFirstCell="No course available yet"
+                            isHeader={false}
+                        />
+                    )}
+
+                    {listCourses &&
+                        listCourses.map((course) => (
+                            <CourseListRow
+                                key={course.id}
+                                id={course.id}
+                                textFirstCell={course.name}
+                                textSecondCell={course.credit}
+                                isHeader={false}
+                                isChecked={course.isSelected}
+                                onChangeRow={this.onChangeRow}
+                            />
+                        ))}
+                </tbody>
+            </table>
+        );
+    }
 }
 
 CourseList.defaultProps = {
-    listCourses: []
-}
+    listCourses: null,
+    fetchCourses: () => { },
+    selectCourse: () => { },
+    unSelectCourse: () => { },
+};
 
-export default CourseList
+CourseList.propTypes = {
+    listCourses: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+    fetchCourses: PropTypes.func,
+    selectCourse: PropTypes.func,
+    unSelectCourse: PropTypes.func,
+};
+
+const cssVars = {
+    borderTableColor: "rgb(170, 170, 170);",
+};
+
+const styles = StyleSheet.create({
+    list: {
+        border: `1px solid ${cssVars.borderTableColor}`,
+        borderCollapse: "collapse",
+        width: "95%",
+        margin: "40px auto 0 auto",
+    },
+});
+
+export const mapStateToProps = (state) => {
+    const coursesList = getListCourses(state);
+    return {
+        listCourses: coursesList,
+    };
+};
+
+const mapDispatchToProps = {
+    fetchCourses,
+    selectCourse,
+    unSelectCourse,
+};
+
+// export default CourseList;
+export default connect(mapStateToProps, mapDispatchToProps)(CourseList);

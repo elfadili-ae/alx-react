@@ -24,14 +24,13 @@ export const setNotifications = (data) => {
 export const fetchNotifications = () => {
     return (dispatch) => {
         dispatch(setLoadingState(true));
-        const data = fetch('/notifications.json');
-        return fetch('/notifications.json')
+        return fetch("./notifications.json")
             .then((res) => res.json())
             .then((data) => dispatch(setNotifications(data)))
             .catch((error) => { })
-            .finally(() => dispatch(setLoadingState(false)))
-    }
-}
+            .finally(() => dispatch(setLoadingState(false)));
+    };
+};
 
 export const boundMarkAsRead = (index) => { markAsAread(index) };
 
