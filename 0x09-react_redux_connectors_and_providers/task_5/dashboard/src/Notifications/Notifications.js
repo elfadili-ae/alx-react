@@ -2,7 +2,7 @@ import React from 'react'
 import Close from '../assets/close.png'
 import NotificationItem from './NotificationItem'
 import propTypes from 'prop-types'
-import NotificationItemShape from './NotificationItemShape'
+// import NotificationItemShape from './NotificationItemShape'
 import { StyleSheet, css } from 'aphrodite/no-important'
 import { fetchNotifications } from '../actions/notificationActionCreators'
 import { connect } from 'react-redux'
@@ -165,7 +165,7 @@ class Notif extends React.Component {
 
 Notif.propTypes = {
     displayDrawer: propTypes.bool,
-    listNotifications: propTypes.arrayOf(NotificationItemShape),
+    listNotifications: propTypes.object,
     handleDisplayDrawer: propTypes.func,
     handleHideDrawer: propTypes.func,
     markNotificationAsRead: propTypes.func,
@@ -174,7 +174,7 @@ Notif.propTypes = {
 
 Notif.defaultProps = {
     displayDrawer: true,
-    listNotifications: [],
+    listNotifications: null,
     handleDisplayDrawer: () => { },
     handleHideDrawer: () => { },
     markNotificationAsRead: () => { }

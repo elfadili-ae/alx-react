@@ -30,11 +30,6 @@ class App extends React.Component {
       displayDrawer: false,
       user: user,
       logOut: this.logOut,
-      listNotif: [
-        { id: 1, type: "default", value: "New course available" },
-        { id: 2, type: "urgent", value: "New resume available" },
-        { id: 3, type: "urgent", html: getLatestNotification() }
-      ]
     };
   }
 
@@ -43,13 +38,6 @@ class App extends React.Component {
     { id: 2, name: 'Webpack', credit: 20 },
     { id: 3, name: 'React', credit: 40 }
   ]
-
-  markNotificationAsRead = (id) => {
-    const newNotifs = this.state.listNotif.filter((notif) => notif.id != id);
-    this.setState({
-      listNotif: newNotifs
-    })
-  }
 
   render() {
 
